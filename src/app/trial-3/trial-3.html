@@ -1,0 +1,19 @@
+<h2>Trial Two</h2>
+
+@for (item of items(); track item.id) {
+  <div>
+    <label>
+      <b>{{ $index + 1 }}</b>
+      <input
+        type="number"
+        #elem
+        [value]="item.value"
+        (change)="onChange(item.id, elem.valueAsNumber)"
+      />
+    </label>
+    <button type="button" (click)="changeColor(elem)">Change Color</button>
+    <button type="button" (click)="remove(item.id)">X</button>
+  </div>
+}
+<button (click)="add()">Add</button>
+<output>{{ items() | json }}</output>

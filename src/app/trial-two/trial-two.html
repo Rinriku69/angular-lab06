@@ -1,0 +1,14 @@
+<h2>Trial Two</h2>
+
+@for (item of items(); track $index; let i = $index) {
+  <div>
+    <label>
+      <b>{{ $index + 1 }}</b>
+      <input type="number" #elem [value]="item" (change)="onChange(i, elem.valueAsNumber)" />
+    </label>
+    <button type="button" (click)="changeColor(elem)">Change Color</button>
+    <button type="button" (click)="remove(i)">X</button>
+  </div>
+}
+<button (click)="add()">Add</button>
+<output>{{ items() }}</output>

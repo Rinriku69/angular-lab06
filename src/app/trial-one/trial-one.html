@@ -1,0 +1,12 @@
+<h2>Trial One</h2>
+
+@for (item of items(); track $index) {
+  <div>
+    <label>
+      <b>{{ $index + 1 }}</b>
+      <input type="number" #elem [value]="item" (change)="onChange($index, elem.valueAsNumber)" />
+    </label>
+  </div>
+}
+
+<output>{{ items() }}</output>

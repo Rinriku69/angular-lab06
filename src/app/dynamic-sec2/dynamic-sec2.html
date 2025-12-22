@@ -1,0 +1,36 @@
+<h2>Dynamic Section</h2>
+
+<button (click)="addSection()">+ Add New Section</button>
+
+<div style="margin-top: 20px">
+  @for (section of results(); track section.id) {
+    <div style="border: 1px solid #444; margin-bottom: 20px; padding: 15px; border-radius: 8px">
+      <header style="display: flex; justify-content: space-between">
+        <strong>Section {{ $index + 1 }}</strong>
+        <button (click)="removeSection(section.id)" style="color: red">Remove Section</button>
+      </header>
+
+      <div style="margin: 15px 0">
+        @for (item of section.items; track item.id) {
+          <div style="margin-bottom: 8px; display: flex; gap: 10px; align-items: center">
+            <span>Item {{ $index + 1 }}:</span>
+            <input
+              type="number"
+              [value]="item.value"
+              (change)="onInputChange(section.id, item.id, +$any($event.target).value)"
+            />
+            <button (click)="removeInput(section.id, item.id)">x</button>
+          </div>
+        } @empty {
+          <p style="color: gray">No inputs here.</p>
+        }
+      </div>
+
+      <button (click)="addInput(section.id)">+ Add Input</button>
+
+      <div style="margin-top: 10px; border-top: 1px solid #eee; padding-top: 5px">
+        <strong>Total: {{ section.total }}</strong>
+      </div>
+    </div>
+  }
+</div>
