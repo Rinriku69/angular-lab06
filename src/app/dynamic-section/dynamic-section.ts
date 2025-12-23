@@ -19,7 +19,7 @@ interface SectionComp {
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class DynamicSection {
-  protected sections = signal<SectionComp[]>([
+  protected sections: SectionComp[] = ([
     {
       name: `Section 1`,
       items: [{ name: 'i0', value: 0 }],
