@@ -1,12 +1,12 @@
-import { ChangeDetectionStrategy, Component, signal, computed } from '@angular/core';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
 
 interface InputComp {
-  name: string;
+  Inname: string;
   value: number;
 }
 
 interface SectionComp {
-  name: string;
+  Secname: string;
   items: InputComp[];
   Sectotal?: number;
 }
@@ -19,75 +19,55 @@ interface SectionComp {
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class DynamicSection {
-  protected sections: SectionComp[] = ([
-    {
-      name: `Section 1`,
-      items: [{ name: 'i0', value: 0 }],
-    },
-  ]);
 
-  protected addSection() {
-    const newSection: SectionComp = {
-      name: `Section ${this.sections().length + 1}`,
-      items: [],
-    };
-    this.sections.update((old) => [...old, newSection]);
+  inputs: InputComp[] = []
+  sections: SectionComp[] = [{
+    Secname: '1',
+    items: [{
+      Inname: '1',
+      value: 0
+    }],
+    Sectotal: 0
+  }]
+
+  addinput(Secname: string): void {
+    this.sections.forEach((sec) => {
+      if (sec.Secname == Secname) {
+        sec.items.push({
+          Inname: `1${sec.items.length + 1}`
+          , value: 0
+        })
+      }
+    }
+    )
   }
 
-  protected removeSection(sectionName: string): void {
-    this.sections.update((prev) => prev.filter((s) => s.name !== sectionName));
+  addsection(): void {
+    this.sections.push({
+      Secname: `${this.sections.length + 1}`,
+      items: [{
+        Inname: '1',
+        value: 0
+      }],
+      Sectotal: 0
+    })
   }
 
-  protected addInput(sectionName: string): void {
-    this.sections.update((sections) =>
-      sections.map((s) => {
-        if (s.name === sectionName) {
-          const newInput = `i${s.name}-${s.items.length}`;
-          return { ...s, items: [...s.items, { name: newInput, value: 0 }] };
-        }
-        return s;
-      }),
-    );
+  InputChange(secname: string, value: number, inputname: string): void {
+    this.sections.forEach((section) => {
+      if (section.Secname == secname) {
+        section.items.forEach(element => {
+          if (element.Inname == inputname) {
+            element.value = value
+          }
+        });
+        const total = section.items.reduce((result, currentvalue) => {
+          return result + currentvalue.value
+        }, 0);
+        section.Sectotal = total;
+        // console.log(section.Secname, section.Sectotal)
+      }
+    })
   }
 
-  protected InputChange(sectionName: string, inputName: string, newValue: number): void {
-    this.sections.update((sections) =>
-      sections.map((s) => {
-        if (s.name === sectionName) {
-          return {
-            ...s,
-            items: s.items.map((item) =>
-              item.name === inputName ? { ...item, value: newValue } : item,
-            ),
-          };
-        }
-        return s;
-      }),
-    );
-  }
-
-  protected results = computed(() => {
-    return this.sections().map((section) => {
-      const total = section.items.reduce((sum, item) => sum + item.value, 0);
-      return {
-        ...section,
-        Sectotal: total,
-      };
-    });
-  });
-
-  protected RemoveInput(sectionname: string, name: string) {
-    this.sections.update((sections) =>
-      sections.map((s) => {
-        if (s.name === sectionname) {
-          return {
-            ...s,
-
-            items: s.items.filter((item) => item.name !== name),
-          };
-        }
-        return s;
-      }),
-    );
-  }
 }

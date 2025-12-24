@@ -1,28 +1,29 @@
 <h2>Dynamic Section</h2>
 
-<button (click)="addSection()">+ Add New Section</button>
+<button (click)="addsection()">+ Add New Section</button>
 
-@for (section of results(); track section.name) {
+@for (section of sections; track section.Secname) {
   <div>
     <h3>
-      {{ section.name }}
-      <button (click)="removeSection(section.name)">Remove Section</button>
+      Section {{ sections.length }}
+      <!-- <button (click)="removeSection(section.name)">Remove Section</button> -->
     </h3>
 
-    @for (item of section.items; track item.name) {
+    @for (item of section.items; track item.Inname) {
       <div>
         <input
           type="number"
           [value]="item.value"
-          (change)="InputChange(section.name, item.name, +$any($event.target).value)"
+          (change)="InputChange(section.Secname, elem.valueAsNumber, item.Inname)"
+          #elem
         />
-        <button type="button" (click)="RemoveInput(section.name, item.name)">X</button>
+        <!-- <button type="button" (click)="RemoveInput(section.name, item.name)">X</button> -->
       </div>
     } @empty {
       <p>No inputs in this section.</p>
     }
 
-    <button (click)="addInput(section.name)">+ Add Input</button>
+    <button (click)="addinput(section.Secname)">+ Add Input</button>
   </div>
-  <div>{{ section.Sectotal }}</div>
+  <div>Result {{ section.Sectotal }}</div>
 }
