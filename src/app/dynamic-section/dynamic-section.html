@@ -1,18 +1,23 @@
 <h2>Dynamic Section</h2>
 
-<button (click)="addsection()">+ Add New Section</button>
+<button (click)="addsection()" class="add-section-btn">+ Add New Section</button>
 
 @for (section of sections; track section.Secname) {
-  <div>
+  <div class="app-comp-section">
     <h3>
       Section {{ $index + 1 }}
-      <button (click)="removeSection($index)" [disabled]="sections.length === 1">
+      <button
+        (click)="removeSection($index)"
+        [disabled]="sections.length === 1"
+        class="remove-section-btn"
+        id="remove-secs"
+      >
         Remove Section
       </button>
     </h3>
 
     @for (item of section.items; track item.Inname; let $in = $index) {
-      <div>
+      <div class="app-comp-input">
         <input
           type="number"
           [value]="item.value"
@@ -32,6 +37,6 @@
     }
 
     <button (click)="addinput(section.Secname)">+ Add Input</button>
+    <div class="section-result">Result {{ section.Sectotal }}</div>
   </div>
-  <div>Result {{ section.Sectotal }}</div>
 }
