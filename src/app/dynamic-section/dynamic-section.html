@@ -6,7 +6,9 @@
   <div>
     <h3>
       Section {{ $index + 1 }}
-      <button (click)="removeSection($index)">Remove Section</button>
+      <button (click)="removeSection($index)" [disabled]="sections.length === 1">
+        Remove Section
+      </button>
     </h3>
 
     @for (item of section.items; track item.Inname; let $in = $index) {
@@ -17,7 +19,13 @@
           (change)="InputChange(section.Secname, elem.valueAsNumber, item.Inname)"
           #elem
         />
-        <button type="button" (click)="removeInput(section.Secname, $in)">X</button>
+        <button
+          type="button"
+          (click)="removeInput(section.Secname, $in)"
+          [disabled]="section.items.length === 1"
+        >
+          X
+        </button>
       </div>
     } @empty {
       <p>No inputs in this section.</p>
