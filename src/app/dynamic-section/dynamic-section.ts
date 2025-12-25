@@ -74,9 +74,8 @@ export class DynamicSection {
 
   removeSection(index: number): void {
     this.sections.splice(index, 1)
-    this.sections.forEach((section) => {
-      const initial = section.Secname
-      section.Secname = initial - 1
+    this.sections.forEach((section, idx) => {
+      section.Secname = idx + 1
     })
   }
 
@@ -84,9 +83,8 @@ export class DynamicSection {
     this.sections.forEach((section) => {
       if (section.Secname == sectionname) {
         section.items.splice(inputindex, 1)
-        section.items.forEach((input) => {
-          const initial = input.Inname
-          input.Inname = initial - 1
+        section.items.forEach((input, idx) => {
+          input.Inname = idx + 1
         })
       }
     })
